@@ -25,5 +25,17 @@ document.getElementById("weatherSubmit").addEventListener("click", function(even
       document.getElementById("weatherResults").innerHTML = results;
 
     });
-
+const url2 = "http://api.openweathermap.org/data/2.5/forecast?q=" + value + ", US&units=imperial" + "&APPID=APIKEY";
+  fetch(url2)
+    .then(function(response) {
+      return response.json();
+    }).then(function(json) {
+      let forecast = "";
+      for (let i=0; i < json.list.length; i++) {
+	forecast += "<h2>" + moment(json.list[i].dt_txt).format('MMMM Do YYYY, h:mm:ss a') + "</h2>";
+	forecast += "<p>Temperature: " + json.list[i].main.temp + "</p>";
+	forecast += '<img src="http://openweathermap.org/img/w/' + json.list[i].weather[0].icon + '.png"/>'
+      }
+      document.getElementById("forecastResults").innerHTML = forecast;
+    });
 });
